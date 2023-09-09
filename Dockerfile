@@ -126,3 +126,6 @@ COPY --link docker/caddy/Caddyfile /etc/caddy/Caddyfile
 FROM caddy_base AS caddy_prod
 
 COPY --from=php_prod --link /srv/app/public public/
+
+COPY ./docker/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN docker-php-ext-enable xdebug

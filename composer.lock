@@ -4,8 +4,113 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f51ae6e792b8d8d8cd99104cbb0c976f",
+    "content-hash": "0a4289ff22a699a066a4735f75416840",
     "packages": [
+        {
+            "name": "certificationy/certificationy",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/certificationy/certificationy.git",
+                "reference": "a4d11e8cda73939d0d231e10d191b0c5466e75a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/certificationy/certificationy/zipball/a4d11e8cda73939d0d231e10d191b0c5466e75a3",
+                "reference": "a4d11e8cda73939d0d231e10d191b0c5466e75a3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "symfony/console": ">=2.5",
+                "symfony/finder": ">=2.5",
+                "symfony/yaml": ">=2.5"
+            },
+            "require-dev": {
+                "certificationy/symfony-pack": "dev-master",
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Certificationy\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Composieux",
+                    "email": "vincent.composieux@gmail.com"
+                },
+                {
+                    "name": "Luis Cordova",
+                    "email": "cordoval@gmail.com"
+                }
+            ],
+            "description": "A library to train on Symfony certification",
+            "homepage": "http://github.com/certificationy/certificationy",
+            "keywords": [
+                "certification",
+                "exam",
+                "symfony",
+                "test"
+            ],
+            "support": {
+                "issues": "https://github.com/certificationy/certificationy/issues",
+                "source": "https://github.com/certificationy/certificationy/tree/master"
+            },
+            "time": "2015-02-09T17:53:39+00:00"
+        },
+        {
+            "name": "certificationy/symfony-pack",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/certificationy/symfony-pack.git",
+                "reference": "bedd08ae86efefc3662aaf9b7c80ab1a2195a517"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/certificationy/symfony-pack/zipball/bedd08ae86efefc3662aaf9b7c80ab1a2195a517",
+                "reference": "bedd08ae86efefc3662aaf9b7c80ab1a2195a517",
+                "shasum": ""
+            },
+            "require-dev": {
+                "certificationy/yaml-linter": "v1.0.1"
+            },
+            "type": "certificationy-pack",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mickaël Andrieu",
+                    "email": "andrieu.travail@gmail.com"
+                }
+            ],
+            "description": "A series of questions to prepare for the certification Symfony2",
+            "homepage": "http://github.com/certificationy/symfony-pack",
+            "keywords": [
+                "certification",
+                "exam",
+                "symfony",
+                "test"
+            ],
+            "support": {
+                "issues": "https://github.com/certificationy/symfony-pack/issues",
+                "source": "https://github.com/certificationy/symfony-pack/tree/1.6.1"
+            },
+            "time": "2018-05-29T18:27:27+00:00"
+        },
         {
             "name": "doctrine/cache",
             "version": "2.2.0",
