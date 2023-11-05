@@ -1,108 +1,49 @@
 # Symfony Test Quest
-## XDEBUG
 
-TODO REVISAR
+This repository is a customized version of Symfony Docker, specialized for a Symfony-based question-and-answer
+examination application. It extends the foundational work of Symfony Docker to create a tailored testing environment
+encapsulated within Docker.
 
-The default development image is shipped with [Xdebug](https://xdebug.org/),
-a popular debugger and profiler for PHP.
+## Introduction
 
-Because it has a significant performance overhead, the step-by-step debugger is disabled by default.
-It can be enabled by setting the `XDEBUG_MODE` environment variable to `debug`.
+The Symfony Test Quest project facilitates a simulated exam environment to interact with a database of questions and
+answers, geared towards Symfony and web development learning and assessment. It is built upon Symfony and Docker,
+ensuring a seamless and consistent development and deployment workflow.
 
-On Linux and Mac:
+## Initial Setup and Fixtures Loading
 
-```
-XDEBUG_MODE=debug docker compose up -d
-```
+Begin with these steps to set up your environment:
 
-On Windows (REVISAR):
+1. [Install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+), if not already installed.
+2. Build fresh Docker images with `docker compose build --no-cache`.
+3. Start the Docker environment using `docker compose up --pull --wait`.
+4. Visit `https://localhost` and [accept the self-signed TLS certificate](https://stackoverflow.com/a/15076602/1352334).
+5. Stop the Docker environment when done with `docker compose down --remove-orphans`.
 
-```
-set XDEBUG_MODE=debug&& docker compose up -d&set XDEBUG_MODE=
-```
+To populate the database with initial data, run:
 
-## Debugging with Xdebug and PHPStorm
-
-First, [create a PHP debug remote server configuration](https://www.jetbrains.com/help/phpstorm/creating-a-php-debug-server-configuration.html):
-
-1. In the `Settings/Preferences` dialog, go to `PHP | Servers`
-2. Create a new server:
-    * Name: `symfony` (or whatever you want to use for the variable `PHP_IDE_CONFIG`)
-    * Host: `localhost` (or the one defined using the `SERVER_NAME` environment variable)
-    * Port: `443`
-    * Debugger: `Xdebug`
-    * Check `Use path mappings`
-    * Absolute path on the server: `/srv/app`
-
-You can now use the debugger!
-
-1. In PHPStorm, open the `Run` menu and click on `Start Listening for PHP Debug Connections`
-2. Add the `XDEBUG_SESSION=PHPSTORM` query parameter to the URL of the page you want to debug, or use [other available triggers](https://xdebug.org/docs/step_debug#activate_debugger)
-
-   Alternatively, you can use [the **Xdebug extension**](https://xdebug.org/docs/step_debug#browser-extensions) for your preferred web browser.
-
-3. On command line, we might need to tell PHPStorm which [path mapping configuration](https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging-cli.html#configure-path-mappings) should be used, set the value of the PHP_IDE_CONFIG environment variable to `serverName=symfony`, where `symfony` is the name of the debug server configured higher.
-
-   Example:
-
-  ```console
-    XDEBUG_SESSION=1 PHP_IDE_CONFIG="serverName=Symfony" bin/console app:exam
-   ```
-
-## Troubleshooting
-
-Inspect the installation with the following command. The Xdebug version should be displayed.
-
-```console
-docker-compose exec php php --version
-
-PHP ...
-    with Xdebug v3.x.x ...
+```bash
+docker-compose exec php bin/console doctrine:fixtures:load
 ```
 
-# Symfony Docker
+## Running the Exam Command
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework, with full [HTTP/2](https://symfony.com/doc/current/weblink.html), HTTP/3 and HTTPS support.
+To initiate the exam simulation, use the following command:
 
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
+```bash
+docker-compose exec php bin/console app:exam
+```
 
-## Getting Started
+This command will trigger the exam interface in your console, allowing you to interact with the question-and-answer
+functionality of the application.
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --no-cache` to build fresh images
-3. Run `docker compose up --pull --wait` to start the project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+## Contributions
 
-## Features
-
-* Production, development and CI ready
-* [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-* Automatic HTTPS (in dev and in prod!)
-* HTTP/2, HTTP/3 and [Preload](https://symfony.com/doc/current/web_link.html) support
-* Built-in [Mercure](https://symfony.com/doc/current/mercure.html) hub
-* [Vulcain](https://vulcain.rocks) support
-* Native [XDebug](docs/xdebug.md) integration
-* Just 2 services (PHP FPM and Caddy server)
-* Super-readable configuration
-
-**Enjoy!**
-
-## Docs
-
-1. [Build options](docs/build.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using a Makefile](docs/makefile.md)
-8. [Troubleshooting](docs/troubleshooting.md)
-
-## License
-
-Symfony Docker is available under the MIT License.
+This project is developed by [mariopastorlanchares](https://github.com/mariopastorlanchares) and is a fork of the
+Symfony Docker project. Contributions to enhance and improve this project are warmly welcomed. Feel free to fork, send
+pull requests, or open issues if you have suggestions or encounter any problems.
 
 ## Credits
 
-Created by [Kévin Dunglas](https://dunglas.fr), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+This project owes its existence to the original Symfony Docker project, masterfully created
+by [Kévin Dunglas](https://dunglas.fr).

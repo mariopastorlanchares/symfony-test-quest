@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,28 +23,26 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
-//    /**
-//     * @return Question[] Returns an array of Question objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('q.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?Question
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * Finds a random set of questions for a given category.
+     *
+     * @param Category $category The category entity
+     * @param int $numberOfQuestionsPerCategory The number of random questions to retrieve
+     * @return array An array of Question objects
+     */
+    public function findRandomByCategory(
+        Category $category,
+        int      $numberOfQuestionsPerCategory
+    ): array
+    {
+        $query = $this->createQueryBuilder('q')
+            ->where('q.category = :category')
+            ->setParameter('category', $category)
+            ->orderBy('RANDOM()')
+            ->setMaxResults($numberOfQuestionsPerCategory)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
