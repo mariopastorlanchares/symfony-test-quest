@@ -57,17 +57,17 @@ class ExamCommand extends Command
         // Obtener todas las categorías
         $categories = $this->categoryRepository->findAll();
         $totalCategories = count($categories);
-        $numberOfQuestionsPerCategory = $this->calculateQuestionsPerCategory(
+        $questionsDistribution = $this->calculateQuestionsPerCategory(
             $totalNumberOfQuestions,
-            $totalCategories)
-        ;
+            $totalCategories
+        );
         $questions = [];
 
-        foreach ($categories as $category) {
-            // Obtener preguntas aleatorias de cada categoría
+        foreach ($categories as $index => $category) {
+            $numberOfQuestionsForThisCategory = $questionsDistribution[$index];
             $randomQuestions = $this->questionRepository->findRandomByCategory(
                 $category,
-                $numberOfQuestionsPerCategory
+                $numberOfQuestionsForThisCategory
             );
             foreach ($randomQuestions as $question) {
                 $questions[] = [
@@ -94,13 +94,22 @@ class ExamCommand extends Command
             $questionText = "\033[1m" . $question->getText() . "\033[0m";
             $choiceQuestion = new ChoiceQuestion(
                 $questionText,
-                $choices
+                $choices,
+                null
+            );
+            $choiceQuestion->setMultiselect(true);
+            $selectedAnswers = $questionHelper->ask($input, $output, $choiceQuestion);
+
+            // Las respuestas correctas como un array de texto
+            $correctAnswersTexts = array_map(
+                fn($a) => $a->getText(),
+                $question->getAnswers()->filter(fn($a) => $a->isIsCorrect())->toArray()
             );
 
-            $answer = $questionHelper->ask($input, $output, $choiceQuestion);
+            // Comprobar si las respuestas seleccionadas son correctas
+            $isCorrect = !array_diff($correctAnswersTexts, $selectedAnswers) && !array_diff($selectedAnswers, $correctAnswersTexts);
 
-            // Evaluate the response
-            if ($question->getAnswers()->filter(fn($a) => $a->getText() === $answer && $a->isIsCorrect())->count() > 0) {
+            if ($isCorrect) {
                 $io->success('Correct answer!');
                 $score++;
             } else {
@@ -114,8 +123,18 @@ class ExamCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function calculateQuestionsPerCategory(int $totalNumberOfQuestions, int $totalCategories): int
+    private function calculateQuestionsPerCategory(int $totalNumberOfQuestions, int $totalCategories): array
     {
-        return (int) ceil($totalNumberOfQuestions / $totalCategories);
+        $baseNumber = intdiv($totalNumberOfQuestions, $totalCategories);
+        $remainder = $totalNumberOfQuestions % $totalCategories;
+
+        $questionsPerCategory = array_fill(0, $totalCategories, $baseNumber);
+
+        for ($i = 0; $i < $remainder; $i++) {
+            $questionsPerCategory[$i]++;
+        }
+
+        return $questionsPerCategory;
     }
+
 }
