@@ -45,5 +45,13 @@ pull requests, or open issues if you have suggestions or encounter any problems.
 
 ## Credits
 
-This project owes its existence to the original Symfony Docker project, masterfully created
-by [Kévin Dunglas](https://dunglas.fr).
+Big shout-out to the crew over at Symfony Docker, especially [Kévin Dunglas](https://dunglas.fr), for the awesome
+groundwork that's been laid down. This project couldn’t have kicked off without that stellar starting point.
+
+A heap of thanks goes to the folks managing the question and answer pool at Certificationy.
+The [`certificationy/certificationy`](https://github.com/certificationy/certificationy)
+and [`certificationy/symfony-pack`](https://github.com/certificationy/symfony-pack) packs have been a goldmine for
+setting up a solid Symfony quiz platform. Kudos to all those who chip in there!
+
+And hey, I'm [mariopastorlanchares](https://github.com/mariopastorlanchares), tinkering away at this project. If you’re
+keen to pitch in or just poke around the code, jump right in! The more, the merrier.
